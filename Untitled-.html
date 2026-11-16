@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Greeting</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1a0b2e, #3b1d5e, #6a2c70);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+            text-align: center;
+        }
+        /* Greeting Card Container */
+        
+        .card {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-radius: 24px;
+            padding: 40px 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            animation: floatCard 3s ease-in-out infinite alternate;
+        }
+        /* Moving & Glowing Title */
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, #ff9a9e, #fad0c4, #ffd1ff, #ff9a9e);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite, bounceText 1.8s ease-in-out infinite;
+        }
+        
+        p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: #f3e5f5;
+            margin-bottom: 25px;
+        }
+        /* Interactive Music Button */
+        
+        .music-btn {
+            background: linear-gradient(45deg, #ff4081, #ff79b0);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(255, 64, 129, 0.5);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .music-btn:hover {
+            transform: scale(1.06);
+            box-shadow: 0 8px 25px rgba(255, 64, 129, 0.75);
+        }
+        
+        .music-btn:active {
+            transform: scale(0.97);
+        }
+        /* Floating Balloons */
+        
+        .balloon {
+            position: absolute;
+            bottom: -120px;
+            width: 55px;
+            height: 70px;
+            border-radius: 50% 50% 50% 50% / 45% 45% 55% 55%;
+            opacity: 0.85;
+            animation: riseUp linear infinite;
+        }
+        
+        .balloon::after {
+            content: "";
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            width: 2px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .b1 {
+            left: 10%;
+            background: #ff5252;
+            animation-duration: 9s;
+            animation-delay: 0s;
+        }
+        
+        .b2 {
+            left: 25%;
+            background: #ffca28;
+            animation-duration: 11s;
+            animation-delay: 2s;
+        }
+        
+        .b3 {
+            left: 45%;
+            background: #40c4ff;
+            animation-duration: 8s;
+            animation-delay: 4s;
+        }
+        
+        .b4 {
+            left: 65%;
+            background: #69f0ae;
+            animation-duration: 12s;
+            animation-delay: 1s;
+        }
+        
+        .b5 {
+            left: 82%;
+            background: #e040fb;
+            animation-duration: 10s;
+            animation-delay: 3s;
+        }
+        
+        .b6 {
+            left: 92%;
+            background: #ff6e40;
+            animation-duration: 9.5s;
+            animation-delay: 5s;
+        }
+        /* Keyframe Animations */
+        
+        @keyframes floatCard {
+            from {
+                transform: translateY(0px);
+            }
+            to {
+                transform: translateY(-12px);
+            }
+        }
+        
+        @keyframes bounceText {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+        
+        @keyframes riseUp {
+            0% {
+                transform: translateY(0) rotate(-4deg);
+                opacity: 0.9;
+            }
+            50% {
+                transform: translateY(-55vh) rotate(4deg);
+            }
+            100% {
+                transform: translateY(-120vh) rotate(-4deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating Balloons -->
+    <div class="balloon b1"></div>
+    <div class="balloon b2"></div>
+    <div class="balloon b3"></div>
+    <div class="balloon b4"></div>
+    <div class="balloon b5"></div>
+    <div class="balloon b6"></div>
+
+    <!-- Main Greeting Card -->
+    <div class="card">
+        <h1>Happy Birthday! 🎂</h1>
+        <p>Wishing you a day filled with happiness, laughter, and unforgettable moments. May all your dreams come true this year!</p>
+        <button class="music-btn" id="playBtn" onclick="playBirthdaySong()">🎵 Play Birthday Song</button>
+    </div>
+
+    <!-- Built-in Web Audio API "Happy Birthday" Song -->
+    <script>
+        let isPlaying = false;
+
+        function playBirthdaySong() {
+            if (isPlaying) return;
+            isPlaying = true;
+
+            const btn = document.getElementById('playBtn');
+            btn.textContent = "🎶 Playing Song...";
+
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            const ctx = new AudioContext();
+
+            // Notes in Hz for "Happy Birthday to You"
+            const notes = [{
+                    freq: 261.63,
+                    dur: 0.3
+                }, {
+                    freq: 261.63,
+                    dur: 0.3
+                }, {
+                    freq: 293.66,
+                    dur: 0.6
+                }, {
+                    freq: 261.63,
+                    dur: 0.6
+                }, {
+                    freq: 349.23,
+                    dur: 0.6
+                }, {
+                    freq: 329.63,
+                    dur: 1.0
+                },
+
+                {
+                    freq: 261.63,
+                    dur: 0.3
+                }, {
+                    freq: 261.63,
+                    dur: 0.3
+                }, {
+                    freq: 293.66,
+                    dur: 0.6
+                }, {
+                    freq: 261.63,
+                    dur: 0.6
+                }, {
+                    freq: 392.00,
+                    dur: 0.6
+                }, {
+                    freq: 349.23,
+                    dur: 1.0
+                },
+
+                {
+                    freq: 261.63,
+                    dur: 0.3
+                }, {
+                    freq: 261.63,
+                    dur: 0.3
+                }, {
+                    freq: 523.25,
+                    dur: 0.6
+                }, {
+                    freq: 440.00,
+                    dur: 0.6
+                }, {
+                    freq: 349.23,
+                    dur: 0.6
+                }, {
+                    freq: 329.63,
+                    dur: 0.6
+                }, {
+                    freq: 293.66,
+                    dur: 1.0
+                },
+
+                {
+                    freq: 466.16,
+                    dur: 0.3
+                }, {
+                    freq: 466.16,
+                    dur: 0.3
+                }, {
+                    freq: 440.00,
+                    dur: 0.6
+                }, {
+                    freq: 349.23,
+                    dur: 0.6
+                }, {
+                    freq: 392.00,
+                    dur: 0.6
+                }, {
+                    freq: 349.23,
+                    dur: 1.2
+                }
+            ];
+
+            let time = ctx.currentTime + 0.1;
+
+            notes.forEach(note => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(note.freq, time);
+
+                gain.gain.setValueAtTime(0.25, time);
+                gain.gain.exponentialRampToValueAtTime(0.001, time + note.dur);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start(time);
+                osc.stop(time + note.dur);
+
+                time += note.dur + 0.05;
+            });
+
+            setTimeout(() => {
+                isPlaying = false;
+                btn.textContent = "🎵 Replay Birthday Song";
+            }, (time - ctx.currentTime) * 1000);
+        }
+    </script>
+
+</body>
+
+</html>
